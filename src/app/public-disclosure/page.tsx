@@ -40,8 +40,8 @@ const MandatoryDisclosure = () => {
                         { id: 13, title: "BUILDING-SAFETY-CERTIFICATE", updatedOn: "March 2025", link: "/pdf/BUILDING-SAFETY-CERTIFICATE.pdf" },
                         { id: 14, title: "CBSE-UPGRADATION-GRANT-LETTER", updatedOn: "March 2025", link: "/pdf/CBSE-UPGRADATION-GRANT-LETTER.pdf" },
                         { id: 15, title: "NOC-DEO", updatedOn: "March 2025", link: "/pdf/NOC-DEO.pdf" },
-                    ].map((item) => (
-                        <MandatoryDisclosureCard key={item.id} title={item.title} updatedOn={item.updatedOn} link={item.link} />
+                    ].map((item, index) => ( index < 2 ? 
+                        <MandatoryDisclosureCard key={item.id} title={item.title} updatedOn={item.updatedOn} link={item.link} />: ""
                     ))}
                 </div>
             </section>
