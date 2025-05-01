@@ -8,12 +8,14 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.6.1",
     "@types/react-redux": "^7.1.34",
     "next": "15.2.0",
+    "next-sitemap": "^4.2.3",
     "react": "^19.0.0",
     "react-countup": "^6.5.3",
     "react-dom": "^19.0.0",
