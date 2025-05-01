@@ -1,5 +1,6 @@
 import { FacilityInterface } from "@/interfaces";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const backgroundColors = ["bg-purple-100", "bg-green-100"];
@@ -8,7 +9,7 @@ interface FacilityCardProps extends FacilityInterface {
   index: number;
 }
 
-const FacilityCard: React.FC<FacilityCardProps> = ({ image, title, description, iconImage, index }) => {
+const FacilityCard: React.FC<FacilityCardProps> = ({ image, title, description, iconImage, link, index }) => {
   const bgColor = backgroundColors[index % backgroundColors.length];
 
   return (
@@ -35,6 +36,11 @@ const FacilityCard: React.FC<FacilityCardProps> = ({ image, title, description, 
           <h2 className="font-semibold text-[16px] lg:text-[20px] text-[#424242]">{title}</h2>
         </div>
         <p className="text-gray-600 text-sm mt-2 line-clamp-2">{description}</p>
+        <Link href={link}>
+          <span className="text-blue-600 font-medium mt-2 inline-block hover:underline">
+            Read More →
+          </span>
+        </Link>
       </div>
     </div>
   );

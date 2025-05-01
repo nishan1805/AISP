@@ -8,6 +8,7 @@ export interface FacilityInterface {
   title: string;
   description: string;
   iconImage: string; // Icon as an image instead of an icon component
+  link:string
   }
 export interface GalleryInterface {
   image: string;

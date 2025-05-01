@@ -25,7 +25,7 @@ const AboutCard: React.FC<AboutCardProps> = ({ imageSrc, subtitle, title, paragr
                     {paragraphs.map((paragraph, index) => (
                         <p key={index} className="text-[#2E2E2E] mb-3 text-justify leading-8 max-md:text-[16px] md:text-[18px]">{paragraph}</p>
                     ))}
-                    <Link href="/about-us/welcome-to-ais">
+                    <Link href="/welcome-to-ais">
                         <span className="text-blue-600 font-medium mt-2 inline-block hover:underline">
                             Read More →
                         </span>
