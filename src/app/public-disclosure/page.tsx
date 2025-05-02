@@ -25,7 +25,7 @@ const MandatoryDisclosure = () => {
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     {[
-                        // { id: 1, title: "Mandatory Public Disclosure", updatedOn: "March 2025" , link: "/pdf/Mandatory-Public-Disclosure.pdf"},
+                        { id: 1, title: "Mandatory Public Disclosure", updatedOn: "March 2025" , link: "/pdf/Mandatory_Disclosure_Details_SARAS_6.0.pdf"},
                         { id: 2, title: "Prescribed Textbook List", updatedOn: "March 2025", link: "/pdf/Textbook-list.pdf" },
                         { id: 3, title: "Faculty Details", updatedOn: "March 2025", link: "/pdf/Teacher-Details.pdf" },
                         { id: 4, title: "Fees-Structure-2023-24-Updated", updatedOn: "March 2025", link: "/pdf/Fees-Structure-2023-24-Updated.pdf" },
@@ -40,7 +40,7 @@ const MandatoryDisclosure = () => {
                         { id: 13, title: "BUILDING-SAFETY-CERTIFICATE", updatedOn: "March 2025", link: "/pdf/BUILDING-SAFETY-CERTIFICATE.pdf" },
                         { id: 14, title: "CBSE-UPGRADATION-GRANT-LETTER", updatedOn: "March 2025", link: "/pdf/CBSE-UPGRADATION-GRANT-LETTER.pdf" },
                         { id: 15, title: "NOC-DEO", updatedOn: "March 2025", link: "/pdf/NOC-DEO.pdf" },
-                    ].map((item, index) => ( index < 2 ? 
+                    ].map((item, index) => ( index <= 2 ? 
                         <MandatoryDisclosureCard key={item.id} title={item.title} updatedOn={item.updatedOn} link={item.link} />: ""
                     ))}
                 </div>

@@ -26,7 +26,7 @@ const AdmissionProcess = () => {
         <SubTitle subTitle="Know about our" textAlign="left" />
         <Title title="Admission Process" textAlign="left" />
         <ContentCard
-          image="/images/Content.png"
+          image="/images/PricipalBG.webp"
           alt="Admission Process"
           imageLeft={true}
           description={
@@ -41,7 +41,8 @@ const AdmissionProcess = () => {
                     curriculum, facilities, and admission criteria.
                   </p>
                   <Link
-                    href="/admission/admission-process/enquiry"
+                    target="_blank"
+                    href="https://aisppur.nexterp.in/nlp/nlp/admission-login"
                     className="text-[16px] md:text-[18px] text-[#0193DC] underline font-inter"
                   >
                     Generate an Enquiry
@@ -56,7 +57,8 @@ const AdmissionProcess = () => {
                     aspirations and how we can support them.
                   </p>
                   <Link
-                    href="/admission/admission-process/enquiry"
+                    target='_blank'
+                    href="https://aisppur.nexterp.in/nlp/nlp/admission-login"
                     className="text-[16px] md:text-[18px] text-[#0193DC] underline font-inter"
                   >
                     Submit Your Application
@@ -70,17 +72,17 @@ const AdmissionProcess = () => {
           <div>
             <h3 className='text-[20px] text-[#212121] font-[600] font-inter'>Step 3: Verification & Confirmation</h3>
             <p className='text-[16px] md:text-[18px] font-medium leading-[27px] text-[#525252] font-inter my-2'>
-            submitted documents. This process ensures that all information is accurate and complete. Upon successful verification, we will confirm your admission status and guide you through the next steps.
+              submitted documents. This process ensures that all information is accurate and complete. Upon successful verification, we will confirm your admission status and guide you through the next steps.
             </p>
           </div>
           <div className='mt-8'>
             <h3 className='text-[20px] text-[#212121] font-[600] font-inter'>Step 4: Commencement</h3>
             <p className='text-[16px] md:text-[18px] font-medium leading-[27px] text-[#525252] font-inter my-2'>
-            With your admission confirmed, we look forward to welcoming you to the Achievers International School community. You&apos;ll receive details about orientation sessions, academic calendars, and other essential information to prepare you for the upcoming academic year.
+              With your admission confirmed, we look forward to welcoming you to the Achievers International School community. You&apos;ll receive details about orientation sessions, academic calendars, and other essential information to prepare you for the upcoming academic year.
             </p>
           </div>
           <p className='text-[16px] md:text-[18px] font-medium leading-[27px] text-[#525252] font-inter mt-8'>
-          If you have any questions or need assistance, feel free to contact our admissions office or email us at: <Link href="mailto:achieversinternationalppur@gmail.com" className='text-[#0193DC]'>achieversinternationalppur@gmail.com</Link>
+            If you have any questions or need assistance, feel free to contact our admissions office or email us at: <Link href="mailto:achieversinternationalppur@gmail.com" className='text-[#0193DC]'>achieversinternationalppur@gmail.com</Link>
           </p >
         </div>
       </section>

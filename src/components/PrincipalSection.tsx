@@ -46,7 +46,7 @@ const PrincipalSection: React.FC = () => {
                         </p>
 
                         {showReadMore && (
-                            <Link href="/about-us/principals-note">
+                            <Link href="/principals-note">
                                 <span className="text-blue-600 font-medium mt-2 inline-block hover:underline">
                                     Read More →
                                 </span>

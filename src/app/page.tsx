@@ -12,6 +12,15 @@ export const metadata: Metadata = {
   title: "AISP - Achievers International School Pratappur",
   description: "A leading CBSE school providing quality education from Nursery to 12th grade.",
   viewport: "width=device-width, initial-scale=1",
+  keywords: ["CBSE School", "Pratappur", "Nursery to 12", "Achievers International School"],
+  openGraph: {
+    title: "AISP - Achievers International School Pratappur",
+    description: "A leading CBSE school providing quality education from Nursery to 12th grade.",
+    url: "https://aisppur.org",
+    siteName: "Achievers International School",
+    locale: "en_IN",
+    type: "website",
+  },
 };
 
 export default function Home() {

@@ -6,6 +6,8 @@ import { LuClock5 } from "react-icons/lu";
 import { FaLocationDot } from "react-icons/fa6";
 import Image from "next/image";
 import Link from "next/link";
+import Script from 'next/script';
+
 
 const Footer: React.FC = () => {
   return (
@@ -142,6 +144,15 @@ const Footer: React.FC = () => {
               >
                 RTE Chhattisgarh Portal
               </Link>
+              {/* Visitor Counter Scripts */}
+              <Script
+                strategy="afterInteractive"
+                src="https://www.freevisitorcounters.com/auth.php?id=f3551327eb5c02b93d5bba87a9c30c325e6985d6"
+              />
+              <Script
+                strategy="afterInteractive"
+                src="https://www.freevisitorcounters.com/en/home/counter/1335321/t/2"
+              />
             </div>
           </div>
         </div>
