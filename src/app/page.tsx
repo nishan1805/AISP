@@ -9,7 +9,7 @@ import Links from '@/components/Links';
 import PrincipalSection from '@/components/PrincipalSection';
 
 export const metadata: Metadata = {
-  title: "AISP - Achievers International School Pratappur",
+  title: "Achievers International School - Best School in Pratappur Chhattisgarh",
   description: "A leading CBSE school providing quality education from Nursery to 12th grade.",
   viewport: "width=device-width, initial-scale=1",
   keywords: ["CBSE School", "Pratappur", "Nursery to 12", "Achievers International School"],
