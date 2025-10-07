@@ -6,10 +6,13 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
     "format": "prettier --write .",
     "prepare": "husky install",
-    "postbuild": "next-sitemap"
+    "postbuild": "next-sitemap",
+    "lint": "eslint",
+    "pages:build": "npx @cloudflare/next-on-pages@1",
+    "pages:deploy": "npm run pages:build && npx wrangler pages deploy .vercel/output/static",
+    "pages:dev": "npx @cloudflare/next-on-pages@1 --experimental-minify"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.6.1",

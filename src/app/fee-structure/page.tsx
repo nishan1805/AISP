@@ -3,8 +3,6 @@
 import React from "react";
 import Banner from "@/components/Banner";
 import Links from "@/components/Links";
-import SubTitle from "@/components/SubTitle";
-import Title from "@/components/Title";
 import { Breadcrumb } from "@/interfaces";
 import FeeTabs from "@/components/FeeTabs";
 import FeeTable from "@/components/FeeTable";

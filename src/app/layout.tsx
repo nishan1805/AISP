@@ -4,8 +4,6 @@ import LocationMap from "@/components/LocationMap";
 import Footer from "@/components/Footer";
 import MainHeader from "@/components/MainHeader";
 import Providers from "@/redux/provider";
-import { SpeedInsights } from '@vercel/speed-insights/next';
-import { Analytics } from '@vercel/analytics/next';
 
 
 // Load fonts via next/font/google for better performance
