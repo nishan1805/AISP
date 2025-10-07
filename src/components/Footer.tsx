@@ -44,7 +44,7 @@ const Footer: React.FC = () => {
               className="w-20 h-20 mb-4"
             />
             <h2 className="text-xl font-bold">ACHIEVERS INTERNATIONAL SCHOOL</h2>
-            <p className="text-gray-300 mt-2">Prattappur, Chhattisgarh</p>
+            <p className="text-gray-300 mt-2">Pratappur, Chhattisgarh</p>
           </div>
           {/* About Us Section */}
           <div>

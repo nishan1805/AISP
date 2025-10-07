@@ -24,7 +24,7 @@ const AchieverCard: React.FC<AchieverCardProps> = ({ title, description, image }
                 <div className="grid grid-cols-2 gap-[10px]">
                   <Counter
                    icon = {'/images/book.png'}
-                   number={600}
+                   number={700}
                    label={'Students'}
                   />
                   <Counter
@@ -34,7 +34,7 @@ const AchieverCard: React.FC<AchieverCardProps> = ({ title, description, image }
                   />
                   <Counter
                    icon = {'/images/happiness.png'}
-                   number={1250}
+                   number={1400}
                    label={'Happy Parents'}
                   />
                   <Counter

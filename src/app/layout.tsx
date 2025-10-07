@@ -47,8 +47,8 @@ export default function RootLayout({
         {/* Additional Sections */}
         <LocationMap />
         <Footer />
-        <SpeedInsights />
-        <Analytics />
+        {/* <SpeedInsights /> */}
+        {/* <Analytics /> */}
         </Providers>
       </body>
     </html>
