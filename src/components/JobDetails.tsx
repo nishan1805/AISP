@@ -59,17 +59,17 @@ const JobDetails: React.FC<JobDetailsProps> = ({ job, onBack, onApply }) => {
                             <div className="flex flex-wrap items-center gap-4 text-sm mb-4">
                                 {job.subject && (
                                     <div className="flex items-center gap-2 text-[#3E8083] bg-[#F7F7F9] font-medium px-3 py-1 rounded-full border border-[#F7F7F9]">
-                                        <IoBookOutline />
+                                        <IoBookOutline/>
                                         <span>{job.subject}</span>
                                     </div>
                                 )}
                                 <div className="flex items-center gap-2 text-[#3F4092] bg-[#ECECF4] px-3 py-1 rounded-full border border-[#ECECF4]">
-                                    <LuCalendarDays />
+                                    <LuCalendarDays/>
                                     <span>Last Date: {formatDate(job.last_date_to_apply)}</span>
                                 </div>
 
                                 <div className={`flex items-center gap-2 px-3 py-1 rounded-full font-medium ${getJobStatusColor(job.job_type)}`}>
-                                    <LuClock3 />
+                                    <LuClock3/>
                                     <span>
                                         {job.job_type}
                                     </span>
@@ -82,17 +82,6 @@ const JobDetails: React.FC<JobDetailsProps> = ({ job, onBack, onApply }) => {
 
                     {/* Content */}
                     <div className="p-6 space-y-6">
-                        {/* Job Description */}
-                        {job.description && (
-                            <section>
-                                <h2 className="text-lg font-semibold text-gray-900 mb-3">Job Description</h2>
-                                <div
-                                    className="text-gray-600 leading-relaxed text-sm prose prose-sm max-w-none"
-                                    dangerouslySetInnerHTML={{ __html: job.description }}
-                                />
-                            </section>
-                        )}
-
                         {/* About AISSPUR */}
                         <section>
                             <h2 className="text-lg font-semibold text-gray-900 mb-3">About AISSPUR</h2>

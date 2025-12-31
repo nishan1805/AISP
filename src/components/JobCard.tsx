@@ -14,16 +14,16 @@ interface JobCardProps {
 }
 
 const JobCard: React.FC<JobCardProps> = ({ job, onApply, href }) => {
-    const formatDate = (dateString: string) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-GB', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric'
-        });
-    };
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    });
+  };
 
-    return (
+  return (
         <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-all duration-200 hover:border-gray-300">
             {/* Header with title and apply button */}
             <div className="flex justify-between items-start mb-3">
@@ -49,10 +49,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, onApply, href }) => {
                 )}
             </div>
             {/* Description */}
-            <div
-                className="text-gray-600 text-base mb-4 leading-relaxed prose prose-sm max-w-none"
-                dangerouslySetInnerHTML={{ __html: job.description || '' }}
-            />
+            <p className="text-gray-600 text-base mb-4 leading-relaxed">{job.description}</p>
 
             {/* Tags/Badges */}
             <div className="flex flex-wrap items-center gap-4 text-sm mb-4">

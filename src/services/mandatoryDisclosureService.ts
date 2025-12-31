@@ -9,7 +9,7 @@ export const mandatoryDisclosureService = {
       .from(Tables.MandatoryDisclosure)
       .select('*')
       .eq('visibility', true)
-      .eq('status', 'New')
+      .eq('status', 'Posted')
       .order('created_at', { ascending: false });
 
     if (error) {

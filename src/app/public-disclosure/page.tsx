@@ -28,7 +28,6 @@ const MandatoryDisclosure = () => {
         try {
             setLoading(true);
             const data = await mandatoryDisclosureService.getAll();
-            // console.log('Fetched mandatory disclosures:', data);
             setDisclosures(data);
         } catch (error) {
             console.error('Error fetching mandatory disclosures:', error);
@@ -55,7 +54,7 @@ const MandatoryDisclosure = () => {
                 <p className="text-[16px] md:text-[18px] font-medium leading-[27px] text-[var(--Gray-600,#525252)] font-inter my-8">
                     As per CBSE Appendix IX, this section provides all mandatory public disclosures including details on affiliation, infrastructure, faculty, and academic resources. The information is regularly updated and made accessible to ensure transparency for all stakeholders.
                 </p>
-
+                
                 {loading ? (
                     <div className="flex justify-center items-center py-12">
                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2E2879]"></div>
@@ -67,11 +66,11 @@ const MandatoryDisclosure = () => {
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         {disclosures.map((item) => (
-                            <MandatoryDisclosureCard
-                                key={item.id}
-                                title={item.title}
-                                updatedOn={formatDate(item.updated_at)}
-                                link={item.file_url || '#'}
+                            <MandatoryDisclosureCard 
+                                key={item.id} 
+                                title={item.title} 
+                                updatedOn={formatDate(item.updated_at)} 
+                                link={item.file_url || '#'} 
                             />
                         ))}
                     </div>
