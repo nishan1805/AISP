@@ -1,10 +1,14 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import Banner from "@/components/Banner";
 import SubTitle from "@/components/SubTitle";
 import Title from "@/components/Title";
 import { Breadcrumb } from "@/interfaces";
 import MandatoryDisclosureCard from "@/components/MandatoryDisclosureCard";
 import Links from "@/components/Links";
+import { mandatoryDisclosureService } from "@/services/mandatoryDisclosureService";
+import { MandatoryDisclosure as MandatoryDisclosureType } from "@/types/supabase";
 
 const breadcrumbs: Breadcrumb[] = [
     { label: "Home", url: "/" },
@@ -13,6 +17,34 @@ const breadcrumbs: Breadcrumb[] = [
 ];
 
 const MandatoryDisclosure = () => {
+    const [disclosures, setDisclosures] = useState<MandatoryDisclosureType[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetchDisclosures();
+    }, []);
+
+    const fetchDisclosures = async () => {
+        try {
+            setLoading(true);
+            const data = await mandatoryDisclosureService.getAll();
+            // console.log('Fetched mandatory disclosures:', data);
+            setDisclosures(data);
+        } catch (error) {
+            console.error('Error fetching mandatory disclosures:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const formatDate = (dateString: string) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+            month: 'long',
+            year: 'numeric'
+        });
+    };
+
     return (
         <>
             <Banner backgroundImage="/images/Section.png" pageTitle="Mandatory Disclosure" breadcrumbs={breadcrumbs} />
@@ -23,27 +55,27 @@ const MandatoryDisclosure = () => {
                 <p className="text-[16px] md:text-[18px] font-medium leading-[27px] text-[var(--Gray-600,#525252)] font-inter my-8">
                     As per CBSE Appendix IX, this section provides all mandatory public disclosures including details on affiliation, infrastructure, faculty, and academic resources. The information is regularly updated and made accessible to ensure transparency for all stakeholders.
                 </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {[
-                        { id: 1, title: "Mandatory Public Disclosure", updatedOn: "March 2025" , link: "/pdf/Mandatory_Disclosure_Details_SARAS_6.0.pdf"},
-                        { id: 2, title: "Prescribed Textbook List", updatedOn: "March 2025", link: "/pdf/Textbook-list.pdf" },
-                        { id: 3, title: "Faculty Details", updatedOn: "March 2025", link: "/pdf/Teacher-Details.pdf" },
-                        { id: 4, title: "Fees-Structure-2023-24-Updated", updatedOn: "March 2025", link: "/pdf/Fees-Structure-2023-24-Updated.pdf" },
-                        { id: 5, title: "SMC", updatedOn: "March 2025", link: "/pdf/SMC.pdf" },
-                        { id: 6, title: "DEO_RECOG_NEW_08_JULY_2024", updatedOn: "March 2025", link: "/pdf/DEO_RECOG_NEW_08_JULY_2024.pdf" },
-                        { id: 7, title: "PTA", updatedOn: "March 2025", link: "/pdf/PTA.pdf" },
-                        { id: 8, title: "SELF-CERTIFICATION-FINAL", updatedOn: "March 2025", link: "/pdf/SELF-CERTIFICATION-FINAL.pdf" },
-                        { id: 9, title: "SAFE-DRINKING-WATER-AND-SANITATION-CERTIFICATE", updatedOn: "March 2025", link: "/pdf/SAFE-DRINKING-WATER-AND-SANITATION-CERTIFICATE.pdf" },
-                        { id: 10, title: "FIRE-SAFETY-CERTIFICATE", updatedOn: "March 2025", link: "/pdf/FIRE-SAFETY-CERTIFICATE.pdf" },
-                        { id: 11, title: "ACADEMIC-CALENDAR-2023-24", updatedOn: "March 2025", link: "/pdf/ACADEMIC-CALENDAR-2023-24.pdf" },
-                        { id: 12, title: "SOCIETY-REG.-CERTIFICATE", updatedOn: "March 2025", link: "/pdf/SOCIETY-REG.-CERTIFICATE.pdf" },
-                        { id: 13, title: "BUILDING-SAFETY-CERTIFICATE", updatedOn: "March 2025", link: "/pdf/BUILDING-SAFETY-CERTIFICATE.pdf" },
-                        { id: 14, title: "CBSE-UPGRADATION-GRANT-LETTER", updatedOn: "March 2025", link: "/pdf/CBSE-UPGRADATION-GRANT-LETTER.pdf" },
-                        { id: 15, title: "NOC-DEO", updatedOn: "March 2025", link: "/pdf/NOC-DEO.pdf" },
-                    ].map((item, index) => ( index <= 2 ? 
-                        <MandatoryDisclosureCard key={item.id} title={item.title} updatedOn={item.updatedOn} link={item.link} />: ""
-                    ))}
-                </div>
+
+                {loading ? (
+                    <div className="flex justify-center items-center py-12">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2E2879]"></div>
+                    </div>
+                ) : disclosures.length === 0 ? (
+                    <div className="text-center text-gray-500 py-12">
+                        No disclosures available
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {disclosures.map((item) => (
+                            <MandatoryDisclosureCard
+                                key={item.id}
+                                title={item.title}
+                                updatedOn={formatDate(item.updated_at)}
+                                link={item.file_url || '#'}
+                            />
+                        ))}
+                    </div>
+                )}
             </section>
         </>
 

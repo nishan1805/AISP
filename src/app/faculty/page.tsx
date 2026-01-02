@@ -1,150 +1,131 @@
-// import React from "react";
-// import SubTitle from "../../components/SubTitle";
-// import Title from "../../components/Title";
-// import FacultyCard from "@/components/FacultyCard";
-// import Links from "@/components/Links";
+"use client";
 
-// interface FacultyMember {
-//   name: string;
-//   title: string;
-//   image: string;
-// }
+import React, { useEffect, useState } from "react";
+import SubTitle from "../../components/SubTitle";
+import Title from "../../components/Title";
+import FacultyCard from "@/components/FacultyCard";
+import Links from "@/components/Links";
+import FacultyTabs from "@/components/FacultyTabs";
+import Banner from "@/components/Banner";
+import { Breadcrumb } from "@/interfaces";
+import { facultyStaffService } from "@/services/facultyStaffService";
+import { FacultyStaff } from "@/types/supabase";
 
-// const FacultyMembers : FacultyMember[] = [
-//     {name : "Mr. Ashok Tiwari",
-//       title : "Principal",
-//       image : "/images/faculty.png"
-//     },
-//     {name : "Shikha Sinha",
-//       title : "Head Master",
-//       image : "/images/faculty.png"
-//     },
-//     {name : "Maya Goswami",
-//       title : "Teacher",
-//       image : "/images/teacher.webp"
-//     },
-//     {name : "Renu Jaiswal",
-//       title : "Teacher",
-//       image : "/images/teacher.webp"
-//     },
-//     {name : "Savita Toppo",
-//       title : "Teacher",
-//       image : "/images/teacher.webp"
-//     },
-//     {name : "Pooja Jaiswal",
-//       title : "Teacher",
-//       image : "/images/teacher.webp"
-//     },
-//     {name : "Krishna Kumar",
-//       title : "Teacher",
-//       image : "/images/teacher.webp"
-//     },
-//     {name : "Roshni Rana",
-//       title : "Teacher",
-//       image : "/images/teacher.webp"
-//     },
-//     {name : "Pushpendra Singh",
-//       title : "Teacher",
-//       image : "/images/teacher.webp"
-//     },
-//     {name : "Shakuntala Dewangan",
-//       title : "Teacher",
-//       image : "/images/teacher.webp"
-//     },
-//     {name : "Durga Mishra",
-//       title : "Teacher",
-//       image : "/images/teacher.webp"
-//     },
-//     {name : "Jainab Khatun",
-//       title : "Teacher",
-//       image : "/images/teacher.webp"
-//     },
-//     {name : "Prakhar Pandey",
-//       title : "Teacher",
-//       image : "/images/teacher.webp"
-//     },
-//     {name : "Niraj Kumar Singh",
-//       title : "Teacher",
-//       image : "/images/teacher.webp"
-//     },
-//     {name : "Shashi Nirmalkar",
-//       title : "Principal",
-//       image : "/images/faculty.png"
-//     },
-//     {name : "Nidhi Gupta",
-//       title : "Teacher",
-//       image : "/images/teacher.webp"
-//     },
-//     {name : "Rohanee Prasad Mahra",
-//       title : "Teacher",
-//       image : "/images/teacher.webp"
-//     },
-//     {name : "Shivani Das",
-//       title : "Teacher",
-//       image : "/images/teacher.webp"
-//     },
-//     {name : "Riya Gupta",
-//       title : "Teacher",
-//       image : "/images/teacher.webp"
-//     },
-//     {name : " Vishwanath Ram",
-//       title : "Teacher",
-//       image : "/images/teacher.webp"
-//     },
-//     {name : "Sujata Singh",
-//       title : "Teacher",
-//       image : "/images/teacher.webp"
-//     },
-//     {name : "Ranjana Chourasia",
-//       title : "Teacher",
-//       image : "/images/teacher.webp"
-//     },
-//     {name : "Priyanka Gupta",
-//       title : "Teacher",
-//       image : "/images/teacher.webp"
-//     },
-//     {name : "Prerna Bharti",
-//       title : "Teacher",
-//       image : "/images/teacher.webp"
-//     },
-//   ]
+const Faculties: React.FC = () => {
+  const [teachingStaff, setTeachingStaff] = useState<FacultyStaff[]>([]);
+  const [nonTeachingStaff, setNonTeachingStaff] = useState<FacultyStaff[]>([]);
+  const [loading, setLoading] = useState(true);
 
-// const Faculties: React.FC = () => {
-//   return (
-//     <>
-//     <section className="max-sm:px-[10px] sm:px-[30px] lg:px-[50px] xl:px-[100px] md:py-[50px] py-[24px] bg-[#F6F6FF]">
-//     <Links/>
-//     <SubTitle subTitle={"Meet"} textAlign="left" />
-//     <Title title={"Our Faculty"} textAlign="left" />
-//     <p className="text-[#525252] md:text-[20px] text-[16px] my-4">Welcome to Achievers International School. We strive to provide </p>
-//     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
-//       {FacultyMembers.map((member: FacultyMember, index: number) => (
-//         <FacultyCard
-//         key={index}
-//         image={member.image}
-//         index={index}
-//         name={member.name}
-//         designation={member.title}
-//         />
-//       ))}
-//     </div>
-//     </section>
-//     </>
-//   );
-// };
+  useEffect(() => {
+    fetchFacultyData();
+  }, []);
 
-// export default Faculties;
+  const fetchFacultyData = async () => {
+    try {
+      setLoading(true);
+      const [teaching, nonTeaching] = await Promise.all([
+        facultyStaffService.getByCategory('Teaching'),
+        facultyStaffService.getByCategory('Non-Teaching')
+      ]);
+      setTeachingStaff(teaching);
+      setNonTeachingStaff(nonTeaching);
+    } catch (error) {
+      console.error('Error fetching faculty data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  const renderTeachingStaff = () => {
+    if (loading) {
+      return (
+        <div className="p-6 text-center">
+          <p className="text-gray-500">Loading teaching staff...</p>
+        </div>
+      );
+    }
 
-import ComingSoon from '@/components/ComingSoon'
-import React from 'react'
+    if (teachingStaff.length === 0) {
+      return (
+        <div className="p-6 text-center">
+          <p className="text-gray-500">No teaching staff members found.</p>
+        </div>
+      );
+    }
 
-const page = () => {
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
+        {teachingStaff.map((member: FacultyStaff, index: number) => (
+          <FacultyCard
+            key={member.id}
+            image={member.image_url || "/images/teacher.webp"}
+            index={index}
+            name={member.name}
+            designation={member.designation}
+          />
+        ))}
+      </div>
+    );
+  };
+
+  const renderNonTeachingStaff = () => {
+    if (loading) {
+      return (
+        <div className="p-6 text-center">
+          <p className="text-gray-500">Loading non-teaching staff...</p>
+        </div>
+      );
+    }
+
+    if (nonTeachingStaff.length === 0) {
+      return (
+        <div className="p-6 text-center">
+          <p className="text-gray-500">No non-teaching staff members found.</p>
+        </div>
+      );
+    }
+
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
+        {nonTeachingStaff.map((member: FacultyStaff, index: number) => (
+          <FacultyCard
+            key={member.id}
+            image={member.image_url || "/images/faculty.png"}
+            index={index}
+            name={member.name}
+            designation={member.designation}
+          />
+        ))}
+      </div>
+    );
+  };
+
+  const breadcrumbs: Breadcrumb[] = [
+    { label: 'Home', url: '/' },
+    { label: 'Academics', url: '/faculty' },
+    { label: 'Faculty', url: '/faculty' },
+  ];
+
   return (
     <>
-    <ComingSoon/>
-    </>
-  )
-}
+      <Banner
+        backgroundImage="/images/Section.png"
+        pageTitle="Faculty"
+        breadcrumbs={breadcrumbs}
+      />
+      <section className="max-sm:px-[10px] sm:px-[30px] lg:px-[50px] xl:px-[100px] md:py-[50px] py-[24px] bg-[#F6F6FF]">
+        <Links />
+        <SubTitle subTitle={"Meet"} textAlign="left" />
+        <Title title={"Our Faculty"} textAlign="left" />
+        <p className="text-[#525252] md:text-[20px] text-[16px] my-4">Welcome to Achievers International School. We strive to provide </p>
 
-export default page
+        <FacultyTabs
+          teachingStaff={renderTeachingStaff()}
+          nonTeachingStaff={renderNonTeachingStaff()}
+        />
+      </section>
+    </>
+  );
+};
+
+export default Faculties;
