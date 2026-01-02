@@ -26,6 +26,7 @@ const LatestUpdatesModal = () => {
         try {
             setLoading(true);
             const data = await latestUpdatesService.getAll();
+            console.log('Fetched latest updates:', data);
             setUpdates(data);
         } catch (error) {
             console.error('Error fetching latest updates:', error);
@@ -52,71 +53,71 @@ const LatestUpdatesModal = () => {
     };
 
     return (
-            <div className="fixed right-0 top-1/2 transform -translate-y-1/2 z-50 flex justify-end rounded-lg shadow-lg overflow-hidden max-w-[400px]">
-                <div
-                    className={`bg-white h-[450px] w-full max-w-full shadow-lg transform transition-transform duration-300 ease-in-out ${animateIn ? 'translate-x-0' : 'translate-x-full'
-                        }`}
-                >
-                    {/* Header */}
-                    <div className="bg-[#2E2879] text-white px-5 py-3 flex justify-between items-center">
-                        <h2 className="text-lg font-semibold tracking-wider">LATEST UPDATES</h2>
-                        <button
-                            onClick={() => dispatch(hideLatestUpdatesModal())}
-                            className="text-white text-xl font-bold"
-                        >
-                            <FaTimes className="text-[#fff] text-2xl cursor-pointer" />
-                        </button>
-                    </div>
+        <div className="fixed right-0 top-1/2 transform -translate-y-1/2 z-50 flex justify-end rounded-lg shadow-lg overflow-hidden max-w-[400px]">
+            <div
+                className={`bg-white h-[450px] w-full max-w-full shadow-lg transform transition-transform duration-300 ease-in-out ${animateIn ? 'translate-x-0' : 'translate-x-full'
+                    }`}
+            >
+                {/* Header */}
+                <div className="bg-[#2E2879] text-white px-5 py-3 flex justify-between items-center">
+                    <h2 className="text-lg font-semibold tracking-wider">LATEST UPDATES</h2>
+                    <button
+                        onClick={() => dispatch(hideLatestUpdatesModal())}
+                        className="text-white text-xl font-bold"
+                    >
+                        <FaTimes className="text-[#fff] text-2xl cursor-pointer" />
+                    </button>
+                </div>
 
-                    {/* Content */}
-                    <div className="px-4 py-6 max-h-[calc(450px-64px)] overflow-y-auto space-y-4">
-                        {loading ? (
-                            <div className="flex justify-center items-center h-full">
-                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2E2879]"></div>
-                            </div>
-                        ) : updates.length === 0 ? (
-                            <div className="text-center text-gray-500 py-8">
-                                No updates available
-                            </div>
-                        ) : (
-                            updates.map((update) => (
-                                <div key={update.id} className="flex justify-between border-b pb-2">
-                                    <div className="w-[80%]">
-                                        <p className="text-sm font-medium text-gray-800">{update.title}</p>
-                                        {update.description && (
-                                            <p className="text-xs text-gray-600 mt-1">{update.description}</p>
+                {/* Content */}
+                <div className="px-4 py-6 max-h-[calc(450px-64px)] overflow-y-auto space-y-4">
+                    {loading ? (
+                        <div className="flex justify-center items-center h-full">
+                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2E2879]"></div>
+                        </div>
+                    ) : updates.length === 0 ? (
+                        <div className="text-center text-gray-500 py-8">
+                            No updates available
+                        </div>
+                    ) : (
+                        updates.map((update) => (
+                            <div key={update.id} className="flex justify-between border-b pb-2">
+                                <div className="w-[80%]">
+                                    <p className="text-sm font-medium text-gray-800">{update.title}</p>
+                                    {update.description && (
+                                        <p className="text-xs text-gray-600 mt-1">{update.description}</p>
+                                    )}
+                                    <div className="text-xs text-gray-500 mt-1">
+                                        {formatDate(update.created_at)}
+                                        {update.file_url && (
+                                            <>
+                                                <span className="mx-1">|</span>
+                                                <a
+                                                    href={update.file_url}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-blue-600 font-semibold hover:underline"
+                                                >
+                                                    Download
+                                                </a>
+                                            </>
                                         )}
-                                        <div className="text-xs text-gray-500 mt-1">
-                                            {formatDate(update.created_at)}
-                                            {update.file_url && (
-                                                <>
-                                                    <span className="mx-1">|</span>
-                                                    <a
-                                                        href={update.file_url}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="text-blue-600 font-semibold hover:underline"
-                                                    >
-                                                        Download
-                                                    </a>
-                                                </>
-                                            )}
+                                    </div>
+                                </div>
+                                {isNew(update.created_at) && (
+                                    <div>
+                                        <div className="flex justify-center items-center w-10 h-5 text-[10px] bg-orange-500 text-white font-bold rounded-sm">
+                                            NEW
                                         </div>
                                     </div>
-                                    {isNew(update.created_at) && (
-                                        <div>
-                                            <div className="flex justify-center items-center w-10 h-5 text-[10px] bg-orange-500 text-white font-bold rounded-sm">
-                                                NEW
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            ))
-                        )}
-                    </div>
+                                )}
+                            </div>
+                        ))
+                    )}
                 </div>
             </div>
-        )
+        </div>
+    )
 };
 
 export default LatestUpdatesModal;

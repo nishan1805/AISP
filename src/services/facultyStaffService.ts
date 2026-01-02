@@ -11,6 +11,7 @@ export const facultyStaffService = {
       .eq('visibility', true)
       .eq('category', category)
       .order('name', { ascending: true });
+      console.log(`Faculty/Staff Data for category ${category}:`, data);
 
     if (error) {
       console.error('Error fetching faculty/staff:', error);

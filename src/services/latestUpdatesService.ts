@@ -9,8 +9,9 @@ export const latestUpdatesService = {
       .from(Tables.LatestUpdates)
       .select('*')
       .eq('visibility', true)
-      .eq('status', 'Posted')
+      .eq('status', 'New')
       .order('created_at', { ascending: false });
+      console.log('Latest Updates Data:', data);
 
     if (error) {
       console.error('Error fetching latest updates:', error);

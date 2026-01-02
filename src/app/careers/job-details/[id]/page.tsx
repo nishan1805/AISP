@@ -7,13 +7,12 @@ import ApplicationModal, { ApplicationFormData } from "@/components/ApplicationM
 import SuccessModal from "@/components/SuccessModal";
 import { jobsService } from "@/services/jobsService";
 import { Job } from "@/types/supabase";
-import Links from "@/components/Links";
 
 const JobDetailsPage = () => {
   const router = useRouter();
   const params = useParams();
   const id = params.id as string;
-  
+
   const [job, setJob] = useState<Job | null>(null);
   const [loading, setLoading] = useState(true);
   const [isApplicationModalOpen, setIsApplicationModalOpen] = useState(false);
@@ -21,7 +20,7 @@ const JobDetailsPage = () => {
 
   useEffect(() => {
     fetchJobDetails();
-  }, [id]);
+  }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchJobDetails = async () => {
     try {
@@ -59,7 +58,8 @@ const JobDetailsPage = () => {
     setIsApplicationModalOpen(true);
   };
 
-  const handleApplicationSubmit = (formData: ApplicationFormData) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleApplicationSubmit = (_formData: ApplicationFormData) => {
     setIsApplicationModalOpen(false);
     setIsSuccessModalOpen(true);
   };
@@ -92,7 +92,7 @@ const JobDetailsPage = () => {
         onClose={handleSuccessClose}
         onGoToCareers={handleGoToCareers}
       />
-    
+
     </>
   );
 };
