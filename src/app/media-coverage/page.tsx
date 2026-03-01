@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { photoGalleryService } from "@/services/photoGalleryService";
 import { PhotoGallery } from "@/types/supabase";
+import Image from "next/image";
 
 const years = [2025, 2024, 2023, 2022, 2021];
 const months = ["All Month", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -104,10 +105,12 @@ const MediaGalleryPage = () => {
                 onClick={() => router.push(`/media-coverage/${gallery.gallery_id || gallery.id}`)}
               >
                 <div className="relative">
-                  <img 
-                    src={gallery.images[0] || '/images/gallery-placeholder.jpg'} 
-                    alt={gallery.title} 
-                    className="w-full h-48 object-cover rounded-t-2xl" 
+                  <Image
+                    src={gallery.images[0] || '/images/gallery-placeholder.jpg'}
+                    alt={gallery.title}
+                    width={600}
+                    height={192}
+                    className="h-48 w-full rounded-t-2xl object-cover"
                   />
                   <div className="absolute bottom-2 right-2 flex items-center gap-1 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded-lg font-semibold">
                     <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">

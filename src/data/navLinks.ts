@@ -1,5 +1,7 @@
 import { MenuItem } from "../interfaces";
 
+const TC_DOWNLOAD_LINK = "https://aisppur.nexterp.in/nlp/nlp/download-tc";
+
 const navLinks: MenuItem[] = [
   {
     label: "HOME",
@@ -38,8 +40,8 @@ const navLinks: MenuItem[] = [
         link: "fee-structure",
       },
       {
-        label: "WITHDRAWAL",
-        link: "withdrawal",
+        label: "TC DOWNLOAD",
+        link: TC_DOWNLOAD_LINK,
       },
       {
         label: "ACADEMIC STREAMS (XI & XII)",

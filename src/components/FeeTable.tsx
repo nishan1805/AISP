@@ -8,9 +8,14 @@ interface FeeRow {
 interface FeeTableProps {
     title: string;
     rows: FeeRow[];
+    feeColumnLabel?: string;
 }
 
-const FeeTable: React.FC<FeeTableProps> = ({ title, rows }) => (
+const FeeTable: React.FC<FeeTableProps> = ({
+    title,
+    rows,
+    feeColumnLabel = "Admission Fees",
+}) => (
     <div className="rounded-t-lg overflow-hidden w-full my-[20px]">
         {title && (
             <div className="bg-[#3C3C87] text-white font-bold text-lg p-3">{title}</div>
@@ -19,7 +24,7 @@ const FeeTable: React.FC<FeeTableProps> = ({ title, rows }) => (
             <thead>
                 <tr className="bg-[#3C3C87] text-white">
                     <th className="border p-3 text-left font-semibold">Class</th>
-                    <th className="border p-3 text-left font-semibold">Admission Fees</th>
+                    <th className="border p-3 text-left font-semibold">{feeColumnLabel}</th>
                 </tr>
             </thead>
             <tbody>

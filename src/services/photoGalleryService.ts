@@ -85,4 +85,18 @@ export const photoGalleryService = {
 
     return data || [];
   },
+
+  // Group galleries by title
+  async getAllGroupedByTitle(): Promise<Record<string, PhotoGallery[]>> {
+    const galleries = await this.getAll();
+
+    return galleries.reduce<Record<string, PhotoGallery[]>>((acc, gallery) => {
+      const key = gallery.title || "Untitled";
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(gallery);
+      return acc;
+    }, {});
+  },
 };

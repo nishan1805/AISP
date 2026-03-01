@@ -6,6 +6,7 @@ import Links from "@/components/Links";
 import { Breadcrumb } from "@/interfaces";
 import FeeTabs from "@/components/FeeTabs";
 import FeeTable from "@/components/FeeTable";
+import { getAcademicYearLabel } from "@/utils/academicYear";
 
 const breadcrumbs: Breadcrumb[] = [
   { label: "Home", url: "/" },
@@ -35,8 +36,8 @@ const tuitionFeesNew = [
   { className: "UKG", fee: "16200" },
   { className: "Std I & II", fee: "17800" },
   { className: "Std III to V", fee: "18900" },
-  { className: "Std VI to VIII", fee: "19800" },
-  { className: "Std IX & X", fee: "27000" },
+  { className: "Std VI to VIII", fee: "20900" },
+  { className: "Std IX & X", fee: "28000" },
   { className: "Std XI & XII (Arts & Commerce)", fee: "32000" },
   { className: "Std XI & XII (Maths)", fee: "34500" },
   { className: "Std XI & XII (Biology)", fee: "35000" },
@@ -50,8 +51,8 @@ const tuitionFeesExisting = [
   { className: "UKG", fee: "16200" },
   { className: "Std I & II", fee: "17800" },
   { className: "Std III to V", fee: "18900" },
-  { className: "Std VI to VIII", fee: "19800" },
-  { className: "Std IX & X", fee: "27000" },
+  { className: "Std VI to VIII", fee: "20900" },
+  { className: "Std IX & X", fee: "28000" },
   { className: "Std XI & XII (Arts & Commerce)", fee: "32000" },
   { className: "Std XI & XII (Maths)", fee: "34500" },
   { className: "Std XI & XII (Biology)", fee: "35000" },
@@ -59,7 +60,11 @@ const tuitionFeesExisting = [
 
 const FeeStructurePage = () => (
   <>
-    <Banner backgroundImage="/images/Section.png" pageTitle="Fee Structure 2025–26" breadcrumbs={breadcrumbs} />
+    <Banner
+      backgroundImage="/images/Section.png"
+      pageTitle={`Fee Structure ${getAcademicYearLabel()}`}
+      breadcrumbs={breadcrumbs}
+    />
     <Links />
     <section className="max-sm:px-[10px] sm:px-[30px] lg:px-[50px] xl:px-[100px] md:py-[50px] py-[24px] bg-[#F6F6FF]">
       {/* <SubTitle subTitle="" textAlign="left" />
@@ -70,13 +75,13 @@ const FeeStructurePage = () => (
             <div className="font-semibold mb-2">A. Admission Fees (One Time)</div>
             <FeeTable title="" rows={admissionFeesNew} />
             <div className="font-semibold mt-8 mb-2">B. Tuition Fees</div>
-            <FeeTable title="" rows={tuitionFeesNew} />
+            <FeeTable title="" rows={tuitionFeesNew} feeColumnLabel="Tuition Fees" />
           </>
         }
         existingStudents={
           <>
             <div className="font-semibold mb-2">A. Tuition Fees</div>
-            <FeeTable title="" rows={tuitionFeesExisting} />
+            <FeeTable title="" rows={tuitionFeesExisting} feeColumnLabel="Tuition Fees" />
           </>
         }
       />

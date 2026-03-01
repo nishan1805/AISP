@@ -6,7 +6,7 @@ import { LuClock5 } from "react-icons/lu";
 import { FaLocationDot } from "react-icons/fa6";
 import Image from "next/image";
 import Link from "next/link";
-import Script from 'next/script';
+import { getCurrentYear } from "@/utils/academicYear";
 
 
 const Footer: React.FC = () => {
@@ -66,7 +66,7 @@ const Footer: React.FC = () => {
                 <FaFacebookF />
               </a>
               <a
-                href="https://www.instagram.com/achievers_international_school/"
+                href="https://www.instagram.com/achievers.international.school/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-white text-gray-900 p-2 rounded-full hover:bg-gray-300"
@@ -144,15 +144,6 @@ const Footer: React.FC = () => {
               >
                 RTE Chhattisgarh Portal
               </Link>
-              {/* Visitor Counter Scripts */}
-              <Script
-                strategy="afterInteractive"
-                src="https://www.freevisitorcounters.com/auth.php?id=f3551327eb5c02b93d5bba87a9c30c325e6985d6"
-              />
-              <Script
-                strategy="afterInteractive"
-                src="https://www.freevisitorcounters.com/en/home/counter/1335321/t/2"
-              />
             </div>
           </div>
         </div>
@@ -160,7 +151,7 @@ const Footer: React.FC = () => {
         {/* Footer Bottom */}
         <div className="md:flex md:justify-between border-t-2 border-[#6566A8]  w-full max-w-[1440px] mt-6 pt-4 text-center text-white text-sm">
           <p>
-            Copyright © 2025 Achievers International School. All rights
+            Copyright © {getCurrentYear()} Achievers International School. All rights
             reserved.
           </p>
           <p className="mt-1">Powered By Achievers International School</p>

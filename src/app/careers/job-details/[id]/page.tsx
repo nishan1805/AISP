@@ -3,11 +3,10 @@
 import React, { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import JobDetails from "@/components/JobDetails";
-import ApplicationModal, { ApplicationFormData } from "@/components/ApplicationModal";
+import ApplicationModal from "@/components/ApplicationModal";
 import SuccessModal from "@/components/SuccessModal";
 import { jobsService } from "@/services/jobsService";
 import { Job } from "@/types/supabase";
-import Links from "@/components/Links";
 
 const JobDetailsPage = () => {
   const router = useRouter();
@@ -20,20 +19,20 @@ const JobDetailsPage = () => {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
   useEffect(() => {
+    const fetchJobDetails = async () => {
+      try {
+        setLoading(true);
+        const jobData = await jobsService.getById(id);
+        setJob(jobData);
+      } catch (error) {
+        console.error('Error fetching job details:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchJobDetails();
   }, [id]);
-
-  const fetchJobDetails = async () => {
-    try {
-      setLoading(true);
-      const jobData = await jobsService.getById(id);
-      setJob(jobData);
-    } catch (error) {
-      console.error('Error fetching job details:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   if (loading) {
     return (
@@ -59,7 +58,7 @@ const JobDetailsPage = () => {
     setIsApplicationModalOpen(true);
   };
 
-  const handleApplicationSubmit = (formData: ApplicationFormData) => {
+  const handleApplicationSubmit = () => {
     setIsApplicationModalOpen(false);
     setIsSuccessModalOpen(true);
   };

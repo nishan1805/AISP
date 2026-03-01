@@ -55,4 +55,18 @@ export const newsMediaService = {
 
     return data || [];
   },
+
+  // Group media posts by title
+  async getAllGroupedByTitle(): Promise<Record<string, NewsMedia[]>> {
+    const mediaItems = await this.getAll();
+
+    return mediaItems.reduce<Record<string, NewsMedia[]>>((acc, item) => {
+      const key = item.title || "Untitled";
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(item);
+      return acc;
+    }, {});
+  },
 };

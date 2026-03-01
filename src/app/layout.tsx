@@ -3,6 +3,7 @@ import "./globals.css";
 import LocationMap from "@/components/LocationMap";
 import Footer from "@/components/Footer";
 import MainHeader from "@/components/MainHeader";
+import PopupBanner from "@/components/PopupBanner";
 import Providers from "@/redux/provider";
 
 
@@ -37,6 +38,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${plusJakarta.variable} ${playfairDisplay.variable} antialiased`}>
         <Providers>
+        <PopupBanner />
         {/* Header Section (Top bar + Social Links) */}
         <MainHeader/>
         {/* Main Content */}

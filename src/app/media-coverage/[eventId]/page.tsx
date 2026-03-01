@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { photoGalleryService } from "@/services/photoGalleryService";
 import { PhotoGallery } from "@/types/supabase";
+import Image from "next/image";
 
 const GalleryDetailsPage = () => {
   const router = useRouter();
@@ -11,23 +12,22 @@ const GalleryDetailsPage = () => {
   const eventId = params.eventId as string;
   const [gallery, setGallery] = useState<PhotoGallery | null>(null);
   const [loading, setLoading] = useState(true);
-  const [previewIndex, setPreviewIndex] = useState<number | null>(null);
 
   useEffect(() => {
+    const fetchGallery = async () => {
+      try {
+        setLoading(true);
+        const data = await photoGalleryService.getById(eventId);
+        setGallery(data);
+      } catch (error) {
+        console.error('Error fetching gallery:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchGallery();
   }, [eventId]);
-
-  const fetchGallery = async () => {
-    try {
-      setLoading(true);
-      const data = await photoGalleryService.getById(eventId);
-      setGallery(data);
-    } catch (error) {
-      console.error('Error fetching gallery:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const formatDate = (dateString?: string) => {
     if (!dateString) return 'No Date';
@@ -78,20 +78,18 @@ const GalleryDetailsPage = () => {
         <div className="mb-4 text-gray-700 font-medium">Total Photos: {gallery.images.length}</div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
           {gallery.images.map((src, idx) => (
-            <div key={idx} className="rounded-lg overflow-hidden shadow hover:shadow-lg cursor-pointer" onClick={() => setPreviewIndex(idx)}>
-              <img src={src} alt={gallery.title} className="w-full h-40 object-cover" />
+            <div key={idx} className="rounded-lg overflow-hidden shadow hover:shadow-lg">
+              <Image
+                src={src}
+                alt={gallery.title}
+                width={400}
+                height={160}
+                className="h-40 w-full object-cover"
+              />
             </div>
           ))}
         </div>
       </div>
-      {/* Photo Preview Modal (pseudo-code) */}
-      {/* {previewIndex !== null && (
-        <PhotoPreviewModal
-          photos={gallery.images}
-          currentIndex={previewIndex}
-          onClose={() => setPreviewIndex(null)}
-        />
-      )} */}
     </div>
   );
 };

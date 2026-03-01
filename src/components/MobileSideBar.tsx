@@ -161,6 +161,7 @@ const MobileSidebar: React.FC = () => {
                   >
                     {item.submenu?.map((subItem, subIndex) => {
                       const isSubActive = subItem.link && pathname === subItem.link;
+                      const isExternalSubItem = subItem.link?.startsWith('http');
                       return (
                       <li
                       key={subIndex}
@@ -168,12 +169,23 @@ const MobileSidebar: React.FC = () => {
                         isSubActive ? 'bg-[#3F4092] text-white font-semibold' : ''
                       }`}
                       >
-                      <Link
-                        href={subItem.link || '#'}
-                        onClick={() => dispatch(hideSideBar())}
-                      >
-                        {subItem.label}
-                      </Link>
+                      {isExternalSubItem ? (
+                        <a
+                          href={subItem.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => dispatch(hideSideBar())}
+                        >
+                          {subItem.label}
+                        </a>
+                      ) : (
+                        <Link
+                          href={subItem.link || '#'}
+                          onClick={() => dispatch(hideSideBar())}
+                        >
+                          {subItem.label}
+                        </Link>
+                      )}
                       </li>
                     )})}
                   </ul>

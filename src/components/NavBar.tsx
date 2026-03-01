@@ -116,28 +116,23 @@ const NavItem: React.FC<{ item: MenuItem, path: string | null }> = ({ item, path
                 ) : (
 
                   <>
-                    {subItem.link?.endsWith(".pdf") ? (
-                      // <a
-                      //   href={subItem.link}
-                      //   target="_blank"
-                      //   rel="noopener noreferrer"
-                      //   className={`flex items-center gap-1 text-[#FFFFFF] relative ${isActive ? 'font-bold' : ''}`}
-                      // >
-                      //   {subItem.label}
-                      // </a>
-                      <Link
-                        href={subItem.link || "#"}
+                    {subItem.link?.startsWith("http") || subItem.link?.endsWith(".pdf") ? (
+                      <a
+                        href={subItem.link}
                         target="_blank"
-                        rel="oopener noreferrer"
+                        rel="noopener noreferrer"
+                        className="block hover:pl-3 transition-all ease-in-out duration-500"
+                      >
+                        {subItem.label}
+                      </a>
+                    ) : subItem.link ? (
+                      <Link
+                        href={subItem.link}
                         className="block hover:pl-3 transition-all ease-in-out duration-500">
                         {subItem.label}
                       </Link>
                     ) : (
-                      <Link
-                        href={subItem.link || "#"}
-                        className="block hover:pl-3 transition-all ease-in-out duration-500">
-                        {subItem.label}
-                      </Link>
+                      <span className="block">{subItem.label}</span>
                     )}
                   </>
                 )}
@@ -166,4 +161,3 @@ const NavItem: React.FC<{ item: MenuItem, path: string | null }> = ({ item, path
 };
 
 export default NavBar;
-
