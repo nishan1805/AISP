@@ -9,7 +9,7 @@ export const latestUpdatesService = {
       .from(Tables.LatestUpdates)
       .select('*')
       .eq('visibility', true)
-      .eq('status', 'Posted')
+      .in('status', ['Posted', 'New'])
       .order('created_at', { ascending: false });
 
     if (error) {

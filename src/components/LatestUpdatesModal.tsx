@@ -48,7 +48,7 @@ const LatestUpdatesModal = () => {
         const now = new Date();
         const diffTime = Math.abs(now.getTime() - updateDate.getTime());
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        return diffDays <= 7; // Show "NEW" badge for updates within 7 days
+        return diffDays <= 7;
     };
 
     return (
@@ -59,10 +59,10 @@ const LatestUpdatesModal = () => {
                 >
                     {/* Header */}
                     <div className="bg-[#2E2879] text-white px-5 py-3 flex justify-between items-center">
-                        <h2 className="text-lg font-semibold tracking-wider">LATEST UPDATES</h2>
+                        <h2 className="text-md font-semibold tracking-wider">LATEST UPDATES</h2>
                         <button
                             onClick={() => dispatch(hideLatestUpdatesModal())}
-                            className="text-white text-xl font-bold"
+                            className="text-white text-lg font-bold"
                         >
                             <FaTimes className="text-[#fff] text-2xl cursor-pointer" />
                         </button>
