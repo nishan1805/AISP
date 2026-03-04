@@ -49,7 +49,10 @@ const JobCard: React.FC<JobCardProps> = ({ job, onApply, href }) => {
                 )}
             </div>
             {/* Description */}
-            <p className="text-gray-600 text-base mb-4 leading-relaxed">{job.description}</p>
+            <div
+                className="text-gray-600 text-base mb-4 leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: job.description || '' }}
+            />
 
             {/* Tags/Badges */}
             <div className="flex flex-wrap items-center gap-4 text-sm mb-4">
