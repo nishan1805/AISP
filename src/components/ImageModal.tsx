@@ -61,7 +61,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
             {/* Close Button */}
             <button
                 onClick={onClose}
-                className="absolute top-4 right-4 text-white hover:text-gray-300 z-10 p-2 rounded-full bg-black bg-opacity-50"
+                className="absolute top-4 right-4 text-white hover:text-gray-300 z-10 p-2 rounded-full bg-black bg-opacity-50 cursor-pointer"
             >
                 <IoClose size={24} />
             </button>

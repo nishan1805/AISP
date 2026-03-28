@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Job } from '@/types/supabase';
 import { jobApplicationsService } from '@/services/jobApplicationsService';
+import { supabase } from '@/utils/supabaseClient';
 import { RxCross1 } from "react-icons/rx";
 import { HiOutlineCloudUpload } from "react-icons/hi";
 
@@ -45,6 +46,22 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({ job, isOpen, onClos
     setFormData(prev => ({ ...prev, resumeFile: file }));
   };
 
+  const uploadResume = async (file: File) => {
+    const cleanName = file.name.replace(/\s+/g, "_");
+    const filePath = `job-applications/${job.id}/${Date.now()}_${cleanName}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("AISPPUR")
+      .upload(filePath, file);
+
+    if (uploadError) {
+      throw uploadError;
+    }
+
+    const { data } = supabase.storage.from("AISPPUR").getPublicUrl(filePath);
+    return data.publicUrl;
+  };
+
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragOver(false);
@@ -66,16 +83,24 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({ job, isOpen, onClos
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!formData.resumeFile) {
+      alert("Please upload your resume.");
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
+      const attachmentUrl = await uploadResume(formData.resumeFile);
+
       // Submit to Supabase
       await jobApplicationsService.submit({
         job_id: job.id,
         full_name: formData.fullName,
         phone_no: formData.phoneNo,
         email_id: formData.emailId,
-        attachment_url: ''
+        attachment_url: attachmentUrl
       });
 
       // Call parent onSubmit callback

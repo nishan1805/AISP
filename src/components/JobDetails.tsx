@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { getJobStatusColor } from '@/utils/jobStatusColor';
 import { Job } from '@/types/supabase';
 import { PiShareFatBold } from "react-icons/pi";
@@ -23,6 +23,8 @@ const breadcrumbs: Breadcrumb[] = [
 ];
 
 const JobDetails: React.FC<JobDetailsProps> = ({ job, onBack, onApply }) => {
+    const [showCopyToast, setShowCopyToast] = useState(false);
+
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('en-GB', {
@@ -32,8 +34,33 @@ const JobDetails: React.FC<JobDetailsProps> = ({ job, onBack, onApply }) => {
         });
     };
 
+    const handleShareClick = async () => {
+        try {
+            if (typeof window !== "undefined" && navigator.clipboard?.writeText) {
+                await navigator.clipboard.writeText(window.location.href);
+            } else if (typeof window !== "undefined") {
+                const tempInput = document.createElement("input");
+                tempInput.value = window.location.href;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand("copy");
+                document.body.removeChild(tempInput);
+            }
+
+            setShowCopyToast(true);
+            setTimeout(() => setShowCopyToast(false), 2500);
+        } catch (error) {
+            console.error("Failed to copy job link:", error);
+        }
+    };
+
     return (
         <>
+            {showCopyToast && (
+                <div className="fixed top-5 right-5 z-50 rounded-md bg-[#5855eb] px-4 py-3 text-sm font-medium text-white shadow-lg">
+                    Job link copied successfully!
+                </div>
+            )}
             <Banner
                 backgroundImage="/images/Section.png"
                 pageTitle="Job Details"
@@ -48,7 +75,7 @@ const JobDetails: React.FC<JobDetailsProps> = ({ job, onBack, onApply }) => {
                         <div className="flex justify-between items-start mb-4">
                             <h1 className="text-2xl font-bold text-gray-900">{job.title}</h1>
                             <button
-                                onClick={() => { }}
+                                onClick={handleShareClick}
                                 className="flex items-center gap-2 text-[#6366f1] hover:bg-[#5855eb] hover:text-white bg-[#a6a7ff71] px-4 py-2 rounded-md font-medium transition-colors cursor-pointer"
                             >
                                 Share this job

@@ -9,7 +9,7 @@ export const newsMediaService = {
       .from(Tables.NewsMedia)
       .select('*')
       .eq('visibility', true)
-      .eq('status', 'Posted')
+      .in('status', ['Posted', 'New'])
       .order('event_date', { ascending: false });
 
     if (error) {
@@ -27,7 +27,7 @@ export const newsMediaService = {
       .select('*')
       .or(`id.eq.${id},post_id.eq.${id}`)
       .eq('visibility', true)
-      .eq('status', 'Posted')
+      .in('status', ['Posted', 'New'])
       .single();
 
     if (error) {
@@ -44,7 +44,7 @@ export const newsMediaService = {
       .from(Tables.NewsMedia)
       .select('*')
       .eq('visibility', true)
-      .eq('status', 'Posted')
+      .in('status', ['Posted', 'New'])
       .order('event_date', { ascending: false })
       .limit(limit);
 

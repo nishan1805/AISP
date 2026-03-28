@@ -9,7 +9,7 @@ export const photoGalleryService = {
       .from(Tables.PhotoGallery)
       .select('*')
       .eq('visibility', true)
-      .eq('status', 'Posted')
+      .in('status', ['Posted', 'New'])
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -27,7 +27,7 @@ export const photoGalleryService = {
       .select('*')
       .or(`id.eq.${id},gallery_id.eq.${id}`)
       .eq('visibility', true)
-      .eq('status', 'Posted')
+      .in('status', ['Posted', 'New'])
       .single();
 
     if (error) {
@@ -44,7 +44,7 @@ export const photoGalleryService = {
       .from(Tables.PhotoGallery)
       .select('*')
       .eq('visibility', true)
-      .eq('status', 'Posted');
+      .in('status', ['Posted', 'New']);
 
     if (year) {
       const startDate = `${year}-01-01`;
@@ -74,7 +74,7 @@ export const photoGalleryService = {
       .from(Tables.PhotoGallery)
       .select('*')
       .eq('visibility', true)
-      .eq('status', 'Posted')
+      .in('status', ['Posted', 'New'])
       .ilike('title', `%${searchTerm}%`)
       .order('created_at', { ascending: false });
 
