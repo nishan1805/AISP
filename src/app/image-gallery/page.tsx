@@ -10,7 +10,9 @@ import Banner from "@/components/Banner";
 import Links from "@/components/Links";
 import SubTitle from "@/components/SubTitle";
 import Title from "@/components/Title";
-import { photoGalleryService } from "@/services/photoGalleryService"; import { PhotoGallery } from '@/types/supabase'; import { Breadcrumb } from "@/interfaces";
+import { photoGalleryService } from "@/services/photoGalleryService";
+import { PhotoGallery } from "@/types/supabase";
+import { Breadcrumb } from "@/interfaces";
 
 /* ------------------ Breadcrumbs ------------------ */
 const breadcrumbs: Breadcrumb[] = [
@@ -26,15 +28,29 @@ interface GroupedGallery {
   latestDate: string;
 }
 
+const months = [
+  "All Month",
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
 /* ------------------ Page ------------------ */
 const ImageGalleryPage = () => {
   const router = useRouter();
-  const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 6 }, (_, i) => currentYear - i); // Current year + 5 past years
 
   const [groupedGalleries, setGroupedGalleries] = useState<GroupedGallery[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedYear, setSelectedYear] = useState(currentYear.toString());
+  const [selectedYear, setSelectedYear] = useState("All Year");
   const [selectedMonth, setSelectedMonth] = useState("All Month");
   const [loading, setLoading] = useState(true);
 
@@ -88,9 +104,31 @@ const ImageGalleryPage = () => {
       year: "numeric",
     });
 
-  const filteredGalleries = groupedGalleries.filter((gallery) =>
-    gallery.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const years = Array.from(
+    new Set(
+      groupedGalleries
+        .map((gallery) => new Date(gallery.latestDate))
+        .filter((date) => !Number.isNaN(date.getTime()))
+        .map((date) => date.getFullYear())
+    )
+  ).sort((a, b) => b - a);
+
+  const filteredGalleries = groupedGalleries.filter((gallery) => {
+    const matchesSearch = gallery.title.toLowerCase().includes(searchQuery.toLowerCase());
+    const galleryDate = new Date(gallery.latestDate);
+    const hasValidDate = !Number.isNaN(galleryDate.getTime());
+
+    const matchesYear =
+      selectedYear === "All Year" ||
+      (hasValidDate && galleryDate.getFullYear().toString() === selectedYear);
+
+    const matchesMonth =
+      selectedMonth === "All Month" ||
+      (hasValidDate &&
+        galleryDate.toLocaleString("en-US", { month: "long" }) === selectedMonth);
+
+    return matchesSearch && matchesYear && matchesMonth;
+  });
 
   /* ------------------ UI ------------------ */
   return (
@@ -98,7 +136,7 @@ const ImageGalleryPage = () => {
       {/* Hero */}
       <Banner
         backgroundImage="/images/Section.png"
-        pageTitle="Media Gallery"
+        pageTitle="Photo Gallery"
         breadcrumbs={breadcrumbs}
       />
 
@@ -130,6 +168,7 @@ const ImageGalleryPage = () => {
                 onChange={(e) => setSelectedYear(e.target.value)}
                 className="w-full sm:w-[200px] bg-white px-5 py-3 rounded-full focus:outline-none"
               >
+                <option value="All Year">All Year</option>
                 {years.map((year) => (
                   <option key={year} value={year.toString()}>
                     {year}
@@ -143,19 +182,11 @@ const ImageGalleryPage = () => {
                 onChange={(e) => setSelectedMonth(e.target.value)}
                 className="w-full sm:w-[200px] bg-white px-5 py-3 rounded-full focus:outline-none"
               >
-                <option>All Month</option>
-                <option>January</option>
-                <option>February</option>
-                <option>March</option>
-                <option>April</option>
-                <option>May</option>
-                <option>June</option>
-                <option>July</option>
-                <option>August</option>
-                <option>September</option>
-                <option>October</option>
-                <option>November</option>
-                <option>December</option>
+                {months.map((month) => (
+                  <option key={month} value={month}>
+                    {month}
+                  </option>
+                ))}
               </select>
 
               {/* Search */}
@@ -178,7 +209,10 @@ const ImageGalleryPage = () => {
         {loading ? (
           <p className="text-center text-gray-500 py-10">Loading galleries...</p>
         ) : filteredGalleries.length === 0 ? (
-          <p className="text-center text-gray-500 py-10">No results found</p>
+          <div className="bg-white border border-[#E4E6F5] rounded-2xl py-16 text-center">
+            <p className="text-[#5A5A89] text-lg font-medium">No gallery found for selected filters.</p>
+            <p className="text-[#8B8BB5] text-sm mt-1">Try a different year, month, or search term.</p>
+          </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filteredGalleries.map((gallery, index) => (

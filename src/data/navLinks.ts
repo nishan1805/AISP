@@ -103,11 +103,11 @@ const navLinks: MenuItem[] = [
         link: "/school-calendar",
       },
       {
-        label: "MEDIA COVERAGE",
+        label: "NEWS & MEDIA COVERAGE",
         link: "/media-coverage",
       },
       {
-        label: "IMAGE GALLERY",
+        label: "PHOTO GALLERY",
         link: "/image-gallery",
       },
     ],

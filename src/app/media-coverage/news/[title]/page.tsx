@@ -1,213 +1,146 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { useRouter, useParams } from 'next/navigation';
-import Banner from '@/components/Banner';
-import Links from '@/components/Links';
-import ImageModal from '@/components/ImageModal';
-import { Breadcrumb } from '@/interfaces';
-import { newsMediaService } from '@/services/newsMediaService';
-import { NewsMedia } from '@/types/supabase';
-import Image from 'next/image';
-import { IoChevronBack } from 'react-icons/io5';
+import React, { useEffect, useState } from "react";
+import { useRouter, useParams } from "next/navigation";
+import Image from "next/image";
+import { IoChevronBack } from "react-icons/io5";
+
+import Banner from "@/components/Banner";
+import Links from "@/components/Links";
+import ImageModal from "@/components/ImageModal";
+import { newsMediaService } from "@/services/newsMediaService";
+import { Breadcrumb } from "@/interfaces";
+import { NewsMedia } from "@/types/supabase";
 
 const MediaDetailsPage = () => {
-    const router = useRouter();
-    const params = useParams();
-    const title = decodeURIComponent(params.title as string);
-    console.log('Media title from params:', title);
+  const router = useRouter();
+  const params = useParams();
+  const title = decodeURIComponent(params.title as string);
 
-    const [newsItems, setNewsItems] = useState<NewsMedia[]>([]);
-    const [allImages, setAllImages] = useState<string[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [mediaItems, setMediaItems] = useState<NewsMedia[]>([]);
+  const [images, setImages] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
 
-    const breadcrumbs: Breadcrumb[] = [
-        { label: 'Home', url: '/' },
-        { label: 'Media Coverage', url: '/media-coverage' },
-        { label: title, url: '' },
-    ];
+  const [modalOpen, setModalOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
 
-    useEffect(() => {
-        fetchMediaDetails();
-    }, [title]); // eslint-disable-line react-hooks/exhaustive-deps
+  const breadcrumbs: Breadcrumb[] = [
+    { label: "Home", url: "/" },
+    { label: "News & Media Coverage", url: "/media-coverage" },
+    { label: title, url: "" },
+  ];
 
-    const fetchMediaDetails = async () => {
-        try {
-            setLoading(true);
-            const allGrouped = await newsMediaService.getAllGroupedByTitle();
-            console.log('Fetched grouped media data:', allGrouped);
+  useEffect(() => {
+    fetchMediaDetails();
+  }, [title]); // eslint-disable-line react-hooks/exhaustive-deps
 
-            const mediaData = allGrouped[title] || [];
-            setNewsItems(mediaData);
+  const fetchMediaDetails = async () => {
+    try {
+      setLoading(true);
+      const grouped = await newsMediaService.getAllGroupedByTitle();
+      const data = grouped[title] || [];
+      setMediaItems(data);
 
-            // Flatten all images from all news items with the same title
-            const images = mediaData.flatMap(item => item.images);
-            setAllImages(images);
-        } catch (error) {
-            console.error('Error fetching media details:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const handleImageClick = (index: number) => {
-        setCurrentImageIndex(index);
-        setIsModalOpen(true);
-    };
-
-    const handleNextImage = () => {
-        setCurrentImageIndex((prev) =>
-            prev < allImages.length - 1 ? prev + 1 : prev
-        );
-    };
-
-    const handlePreviousImage = () => {
-        setCurrentImageIndex((prev) =>
-            prev > 0 ? prev - 1 : prev
-        );
-    };
-
-    const formatDate = (dateString: string): string => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-GB', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric'
-        });
-    };
-
-    const getLatestDate = () => {
-        if (newsItems.length === 0) return '';
-        const latestNews = newsItems.reduce((latest, current) =>
-            new Date(current.created_at) > new Date(latest.created_at) ? current : latest
-        );
-        return formatDate(latestNews.event_date || latestNews.created_at);
-    };
-
-    const renderHeroSection = () => (
-        <Banner
-            backgroundImage="/images/Section.png"
-            pageTitle={title}
-            breadcrumbs={breadcrumbs}
-        />
-    );
-
-    if (loading) {
-        return (
-            <>
-                {renderHeroSection()}
-                <div className="min-h-screen flex items-center justify-center">
-                    <div className="text-center">
-                        <p className="text-gray-600 text-lg">Loading media coverage...</p>
-                    </div>
-                </div>
-            </>
-        );
+      const allImages = data.flatMap((item: NewsMedia) => item.images || []).filter(Boolean);
+      setImages(allImages);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    if (newsItems.length === 0) {
-        return (
-            <>
-                {renderHeroSection()}
-                <div className="min-h-screen flex items-center justify-center">
-                    <div className="text-center">
-                        <p className="text-gray-600 text-lg">Media coverage not found.</p>
-                        <button
-                            onClick={() => router.push('/media-coverage')}
-                            className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-                        >
-                            Back to Media Coverage
-                        </button>
-                    </div>
-                </div>
-            </>
-        );
-    }
+  const formatDate = (date: string) =>
+    new Date(date).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
 
+  const latestDate =
+    mediaItems.length > 0
+      ? formatDate(mediaItems[mediaItems.length - 1].event_date || mediaItems[mediaItems.length - 1].created_at)
+      : "";
+
+  if (loading) {
     return (
-        <>
-            {renderHeroSection()}
-            <section className="max-sm:px-[10px] sm:px-[30px] lg:px-[50px] xl:px-[100px] md:py-[50px] py-[24px] bg-[#F6F6FF]">
-                <Links />
-
-                {/* Back Button */}
-                <button
-                    onClick={() => router.push('/media-coverage')}
-                    className="flex items-center cursor-pointer gap-2 text-[#6366f1] hover:text-[#5855eb] mb-6 transition-colors"
-                >
-                    <IoChevronBack size={20} />
-                    Go back
-                </button>
-
-                {/* Media Header */}
-                <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-2">{title}</h1>
-                    <div className="flex items-center gap-4 text-gray-600">
-                        <span>{getLatestDate()}</span>
-                        <span>•</span>
-                        <span>Total Photos: {allImages.length}</span>
-                    </div>
-                </div>
-
-                {/* Images Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {allImages.map((image, index) => (
-                        <div
-                            key={index}
-                            onClick={() => handleImageClick(index)}
-                            className="relative aspect-square overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer group"
-                        >
-                            <Image
-                                src={image}
-                                alt={`${title} - Image ${index + 1}`}
-                                fill
-                                className="object-cover group-hover:scale-105 transition-transform duration-300"
-                            />
-                            {/* Hover overlay */}
-                            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
-                                <div className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-
-                {/* Description section */}
-                {newsItems[0]?.description && (
-                    <div className="mt-8 bg-white rounded-lg p-6 shadow-sm">
-                        <h2 className="text-xl font-semibold text-gray-900 mb-3">About this Event</h2>
-                        <div
-                            className="text-gray-600 prose prose-sm max-w-none"
-                            dangerouslySetInnerHTML={{ __html: newsItems[0].description }}
-                        />
-                    </div>
-                )}
-
-                {/* Source Information */}
-                {newsItems[0]?.source && (
-                    <div className="mt-4 bg-blue-50 rounded-lg p-4">
-                        <h3 className="text-sm font-semibold text-blue-900 mb-1">Source</h3>
-                        <p className="text-blue-700">{newsItems[0].source}</p>
-                    </div>
-                )}
-            </section>
-
-            {/* Image Modal */}
-            <ImageModal
-                isOpen={isModalOpen}
-                images={allImages}
-                currentIndex={currentImageIndex}
-                onClose={() => setIsModalOpen(false)}
-                onNext={handleNextImage}
-                onPrevious={handlePreviousImage}
-            />
-        </>
+      <>
+        <Banner backgroundImage="/images/Section.png" pageTitle={title} breadcrumbs={breadcrumbs} />
+        <div className="min-h-[60vh] flex items-center justify-center text-gray-600">
+          Loading media...
+        </div>
+      </>
     );
+  }
+
+  return (
+    <>
+      <Banner
+        backgroundImage="/images/Section.png"
+        pageTitle="News & Media Coverage"
+        breadcrumbs={breadcrumbs}
+      />
+
+      <section className="bg-[#F6F6FF] px-[10px] sm:px-[30px] lg:px-[50px] xl:px-[100px] py-[40px]">
+        <Links />
+
+        <button
+          onClick={() => router.push("/media-coverage")}
+          className="flex cursor-pointer items-center gap-2 text-[#6366F1] font-medium mb-6"
+        >
+          <IoChevronBack size={20} />
+          Go back
+        </button>
+
+        <div className="bg-[#EEF0FF] rounded-xl px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
+          <p className="text-sm text-gray-600">
+            Total Photos: <span className="font-semibold">{images.length}</span>
+          </p>
+
+          <div className="text-center">
+            <h1 className="text-lg sm:text-xl font-semibold text-gray-900">{title}</h1>
+          </div>
+
+          <p className="text-sm text-gray-600">{latestDate}</p>
+        </div>
+
+        {images.length === 0 ? (
+          <div className="bg-white border border-[#E4E6F5] rounded-2xl py-16 text-center">
+            <p className="text-[#5A5A89] text-lg font-medium">No images available for this media item.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {images.map((img, index) => (
+              <div
+                key={`${img}-${index}`}
+                onClick={() => {
+                  setActiveIndex(index);
+                  setModalOpen(true);
+                }}
+                className="bg-white rounded-xl p-2 shadow-sm hover:shadow-md transition cursor-pointer"
+              >
+                <div className="relative aspect-square rounded-lg overflow-hidden">
+                  <Image
+                    src={img}
+                    alt={`${title} ${index + 1}`}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <ImageModal
+        isOpen={modalOpen}
+        images={images}
+        currentIndex={activeIndex}
+        onClose={() => setModalOpen(false)}
+        onNext={() => setActiveIndex((i) => Math.min(i + 1, images.length - 1))}
+        onPrevious={() => setActiveIndex((i) => Math.max(i - 1, 0))}
+      />
+    </>
+  );
 };
 
 export default MediaDetailsPage;
