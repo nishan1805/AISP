@@ -69,7 +69,7 @@ const Header: React.FC = () => {
             <FaFacebookF />
           </Link>
           <Link
-            href="https://www.instagram.com/achievers_international_school/"
+            href="https://www.instagram.com/achievers.international.school/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-[#2D2D68] bg-[#ECECF4] lg:w-8 lg:h-8  xl:w-10 xl:h-10 flex items-center justify-center rounded-[50%] cursor-pointer"
