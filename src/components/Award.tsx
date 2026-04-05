@@ -24,7 +24,7 @@ const Award: React.FC = () => {
         <section
             className="relative bg-[#1A1B3D] h-auto lg:h-[550px] flex flex-col justify-end items-center px-6 sm:px-12 lg:px-24 py-[24px] md:py-[64px]"
             style={{
-                background: "linear-gradient(0deg, rgba(26, 27, 61, 0.60) 0%, rgba(26, 27, 61, 0.60) 100%), url('/images/award section.webp')",
+                background: "linear-gradient(0deg, rgba(26, 27, 61, 0.60) 0%, rgba(26, 27, 61, 0.60) 100%), url('/images/award_section.jpeg')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
