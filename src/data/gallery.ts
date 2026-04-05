@@ -8,11 +8,6 @@ const galleries: GalleryInterface[] = [
         date: "2025-Mar-25"
     },
     {
-        title: "Award Ceremony",
-        image: "/images/photo 5.jpg",
-        date: "2023-10-02"
-    },
-    {
         title: "Republic Day Celebration",
         image: "/images/photo 6.jpg",
         date: "2025-Jan-26"

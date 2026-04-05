@@ -46,8 +46,8 @@ const PrincipalsNote = () => {
                 <div className="px-2 sm:px-4 md:px-0">
                     <p className="mb-4 text-[18px] text-[#000] text-justify">This website serves as a comprehensive resource for information about our school&apos;s programs, policies, and upcoming events. We invite you to explore its various sections and stay connected with our vibrant school community.</p>
                     <p className="mb-4 text-[18px] text-[#000] text-justify">As we embark on this journey together, let us remember that education is a shared endeavour—one that shapes confident individuals and compassionate citizens.</p>
-                    <p className="mb-4 text-[18px] text-[#000] text-justify"><strong>Warm regards,</strong>
-                        <p>Principal </p></p>
+                    <p className="mb-4 text-[18px] text-[#000] text-justify">Warm regards,
+                        <p><strong>Principal </strong></p></p>
                 </div>
             </section>
         </>
