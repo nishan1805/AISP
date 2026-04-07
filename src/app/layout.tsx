@@ -38,17 +38,17 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${plusJakarta.variable} ${playfairDisplay.variable} antialiased`}>
         <Providers>
-        <PopupBanner />
-        {/* Header Section (Top bar + Social Links) */}
-        <MainHeader/>
-        {/* Main Content */}
-        <main>{children}</main>
+          <PopupBanner />
+          {/* Header Section (Top bar + Social Links) */}
+          <MainHeader />
+          {/* Main Content */}
+          <main>{children}</main>
 
-        {/* Additional Sections */}
-        <LocationMap />
-        <Footer />
-        {/* <SpeedInsights /> */}
-        {/* <Analytics /> */}
+          {/* Additional Sections */}
+          <LocationMap />
+          <Footer />
+          {/* <SpeedInsights /> */}
+          {/* <Analytics /> */}
         </Providers>
       </body>
     </html>

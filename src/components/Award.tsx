@@ -1,7 +1,8 @@
 
-
+"use client";
 
 import React from "react";
+import Image from "next/image";
 import AwardCard from "./AwardCard";
 
 const data = [
@@ -22,15 +23,19 @@ const data = [
 const Award: React.FC = () => {
     return (
         <section
-            className="relative bg-[#1A1B3D] h-auto lg:h-[550px] flex flex-col justify-end items-center px-6 sm:px-12 lg:px-24 py-[24px] md:py-[64px]"
-            style={{
-                background: "linear-gradient(0deg, rgba(26, 27, 61, 0.60) 0%, rgba(26, 27, 61, 0.60) 100%), url('/images/award_section.webp')",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-                backgroundAttachment: "fixed",
-            }}
+            className="relative h-auto lg:h-[550px] flex flex-col justify-end items-center px-6 sm:px-12 lg:px-24 py-[24px] md:py-[64px] overflow-hidden"
         >
+            {/* Background image — priority forces eager load and keeps it cached */}
+            <Image
+                src="/images/award_section.webp"
+                alt=""
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover object-center -z-10"
+            />
+            {/* Dark overlay */}
+            <div className="absolute inset-0 -z-10 bg-[rgba(26,27,61,0.60)]" />
             {/* Title */}
             <div className="text-center mb-6">
                 <h1
