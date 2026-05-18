@@ -3,13 +3,13 @@ import Tables from '@/constants/tables';
 import { MandatoryDisclosure } from '@/types/supabase';
 
 export const mandatoryDisclosureService = {
-  // Get all mandatory disclosures (only visible and posted)
+  // Get all mandatory disclosures
   async getAll(): Promise<MandatoryDisclosure[]> {
     const { data, error } = await supabase
       .from(Tables.MandatoryDisclosure)
       .select('*')
       .eq('visibility', true)
-      .eq('status', 'Posted')
+      .neq('status', 'Deleted')
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -27,7 +27,7 @@ export const mandatoryDisclosureService = {
       .select('*')
       .or(`id.eq.${id},doc_id.eq.${id}`)
       .eq('visibility', true)
-      .eq('status', 'Posted')
+      .neq('status', 'Deleted')
       .single();
 
     if (error) {
